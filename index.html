@@ -361,6 +361,7 @@ tr:hover { background:#F8FAFC; }
 <script>
 // ==================== CONFIGURATION ====================
 const USE_GAS = true;
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eGNsb3RjYmxia3pyaWxsZHJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODIzMjcsImV4cCI6MjEwMTg1ODMyN30.aUrEK8JLCia3vkg8nxin0wmgJw_o92Kia2T5zZM7Gwo'; // <-- GANTI: Settings → API → Project API keys → anon public
 const GAS_WEB_APP_URL = 'https://kyxclotcblbkzrilldru.supabase.co/functions/v1/super-service'; // <-- GANTI dengan URL Supabase Edge Function Anda
 
 // ==================== STATE MANAGEMENT ====================
@@ -557,7 +558,8 @@ async function apiCall(action, payload = {}, method = 'POST') {
       method: finalMethod,
       mode: 'cors',
       redirect: 'follow',
-      credentials: 'omit'
+      credentials: 'omit',
+      headers: { 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY }
     };
 
     if (finalMethod === 'GET') {
@@ -567,7 +569,7 @@ async function apiCall(action, payload = {}, method = 'POST') {
         }
       });
     } else {
-      options.headers = { 'Content-Type': 'text/plain;charset=utf-8' };
+      options.headers['Content-Type'] = 'text/plain;charset=utf-8';
       options.body = JSON.stringify({ action, ...payload });
     }
 
