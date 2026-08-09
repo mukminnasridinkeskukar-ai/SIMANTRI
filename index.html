@@ -4,62 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir SIMANTRI</title>
-    <!-- Memanggil library Supabase langsung dari internet (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; }
-        input { width: 100%; padding: 8px; margin-bottom: 10px; }
-        button { padding: 10px 15px; background: #28a745; color: white; border: none; cursor: pointer; }
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { background: #fff; padding: 20px 30px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        fieldset { border: 1px solid #ccc; border-radius: 5px; margin-bottom: 20px; padding: 15px; }
+        legend { font-weight: bold; background: #fff; padding: 0 5px; color: #0056b3; }
+        label { display: block; margin-top: 10px; font-weight: bold; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #0056b3; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #004494; }
     </style>
 </head>
 <body>
 
+<div class="container">
     <h2>Formulir SIMANTRI</h2>
-    
-    <!-- Formulir -->
     <form id="formSimantri">
-        <label for="nama">Nama Lengkap:</label>
-        <input type="text" id="nama" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-
-        <button type="submit">Kirim Data</button>
-    </form>
-
-    <script>
-        // 1. Ganti dengan URL dan Anon Key dari Project Supabase Anda
-        const supabaseUrl = 'https://kyxclotcblbkzrilldru.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eGNsb3RjYmxia3pyaWxsZHJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODIzMjcsImV4cCI6MjEwMTg1ODMyN30.aUrEK8JLCia3vkg8nxin0wmgJw_o92Kia2T5zZM7Gwo';
         
-        // Inisialisasi koneksi
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        <fieldset>
+            <legend>Data Diri</legend>
+            <label>NIK:</label> <input type="text" name="nik" required maxlength="16">
+            <label>Nama Lengkap:</label> <input type="text" name="nama_lengkap" required>
+            <label>Jenis Kelamin:</label>
+            <select name="jenis_kelamin">
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+            <label>Tempat Lahir:</label> <input type="text" name="tempat_lahir">
+            <label>Tanggal Lahir:</label> <input type="date" name="tanggal_lahir">
+            <label>Alamat Sesuai KTP:</label> <textarea name="alamat_ktp" rows="2"></textarea>
+        </fieldset>
 
-        // 2. Menangkap kejadian saat tombol submit ditekan
-        document.getElementById('formSimantri').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Mencegah halaman reload
+        <fieldset>
+            <legend>Legalitas Profesi (STR & SIP)</legend>
+            <label>Nomor STR:</label> <input type="text" name="nomor_str">
+            <label>Status STR:</label>
+            <select name="status_str">
+                <option value="Aktif">Aktif</option>
+                <option value="Tidak Aktif">Tidak Aktif</option>
+                <option value="Proses Perpanjangan">Proses Perpanjangan</option>
+            </select>
+            <label>Nomor SIP:</label> <input type="text" name="nomor_sip">
+            <label>Status SIP:</label>
+            <select name="status_sip">
+                <option value="Aktif">Aktif</option>
+                <option value="Tidak Aktif">Tidak Aktif</option>
+            </select>
+            <label>Masa Berlaku SIP:</label> <input type="date" name="masa_berlaku_sip">
+        </fieldset>
 
-            // Mengambil nilai dari inputan
-            const namaValue = document.getElementById('nama').value;
-            const emailValue = document.getElementById('email').value;
+        <fieldset>
+            <legend>Data Unit Kerja</legend>
+            <label>Unit Kerja:</label> <input type="text" name="unit_kerja">
+            <label>Alamat Unit Kerja:</label> <textarea name="alamat_unit_kerja" rows="2"></textarea>
+            <label>Desa/Kelurahan Unit Kerja:</label> <input type="text" name="desa_kelurahan">
+            <label>Jam Operasional/Praktik:</label> <input type="text" name="jam_operasional" placeholder="Contoh: Senin-Jumat, 08:00 - 16:00">
+        </fieldset>
 
-            // 3. Mengirim data ke tabel 'formulir_simantri' di Supabase
-            const { data, error } = await supabase
-                .from('formulir_simantri')
-                .insert([
-                    { nama: namaValue, email: emailValue }
-                ]);
+        <fieldset>
+            <legend>Kepatuhan & Integrasi (SatuSehat)</legend>
+            <label>Status Unit Praktik di SatuSehat SDMK:</label> <input type="text" name="status_satusehat">
+            <label>SOP Pelayanan:</label> <input type="text" name="sop_pelayanan" placeholder="Ada/Tidak">
+            <label>SOP Profesi:</label> <input type="text" name="sop_profesi" placeholder="Ada/Tidak">
+            <label>SOP Etika:</label> <input type="text" name="sop_etika" placeholder="Ada/Tidak">
+            <label>SDMK Named:</label> <input type="text" name="sdmk_named">
+            <label>SDMK Nakes:</label> <input type="text" name="sdmk_nakes">
+            <label>SDMK Admin:</label> <input type="text" name="sdmk_admin">
+        </fieldset>
 
-            // Mengecek apakah ada error atau berhasil
-            if (error) {
-                alert('Gagal mengirim data: ' + error.message);
-                console.error(error);
-            } else {
-                alert('Data berhasil disimpan ke Supabase!');
-                document.getElementById('formSimantri').reset(); // Mengosongkan form
-            }
-        });
-    </script>
+        <fieldset>
+            <legend>Lainnya</legend>
+            <label>Catatan Rekomendasi:</label> <textarea name="catatan" rows="3"></textarea>
+        </fieldset>
+
+        <button type="submit" id="btnSubmit">Kirim Data SIMANTRI</button>
+    </form>
+</div>
+
+<script>
+    // 1. Konfigurasi Supabase
+    const supabaseUrl = 'https://kyxclotcblbkzrilldru.supabase.co/rest/v1/';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5eGNsb3RjYmxia3pyaWxsZHJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyODIzMjcsImV4cCI6MjEwMTg1ODMyN30.aUrEK8JLCia3vkg8nxin0wmgJw_o92Kia2T5zZM7Gwo';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    // 2. Fungsi Kirim Data
+    document.getElementById('formSimantri').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Mencegah reload
+        
+        const btn = document.getElementById('btnSubmit');
+        btn.textContent = "Mengirim...";
+        btn.disabled = true;
+
+        // Mengambil semua data form otomatis berdasarkan atribut "name"
+        const formData = new FormData(event.target);
+        const formObject = Object.fromEntries(formData.entries());
+
+        // Agar input tanggal yang kosong tidak menyebabkan error di database, ubah string kosong jadi null
+        if(formObject.tanggal_lahir === "") formObject.tanggal_lahir = null;
+        if(formObject.masa_berlaku_sip === "") formObject.masa_berlaku_sip = null;
+
+        // 3. Kirim ke Supabase
+        const { error } = await supabase.from('formulir_simantri').insert([formObject]);
+
+        if (error) {
+            alert('Gagal mengirim data: ' + error.message);
+            console.error(error);
+        } else {
+            alert('Data berhasil disimpan!');
+            event.target.reset(); // Kosongkan form
+        }
+
+        btn.textContent = "Kirim Data SIMANTRI";
+        btn.disabled = false;
+    });
+</script>
 
 </body>
 </html>
